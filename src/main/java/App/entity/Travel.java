@@ -8,6 +8,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -24,27 +25,20 @@ public class Travel implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @NotBlank
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
     private Account owner;
 
-    @NotBlank
     private Double price;
 
-    @NotBlank
-    @Column(name = "pickupDate", columnDefinition="DATETIME")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date pickupDate;
 
-    @NotBlank
     private String pickupPoint;
 
-    @NotBlank
     private String eventName;
 
-    @NotBlank
     private String eventAddress;
 
-    @NotBlank
     private int maxPersons;
 
     @OneToMany(

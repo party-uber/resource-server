@@ -11,8 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/travel")
@@ -27,7 +30,7 @@ public class TravelController {
     }
 
     @PostMapping
-    public ResponseEntity createTravel(@AuthenticationPrincipal User user, CreateTravelDTO dto) {
+    public ResponseEntity createTravel(@AuthenticationPrincipal User user, @Valid @RequestBody CreateTravelDTO dto) {
         Account account = this.accountService.findOrCreate(new Account(user.getId(), user.getUsername()));
 
         if(account != null) {
