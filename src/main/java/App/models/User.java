@@ -15,11 +15,10 @@ import java.util.UUID;
 public class User implements UserDetails {
     private UUID id;
     private String userName;
-    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role.toString()));
+        return Collections.singletonList(new SimpleGrantedAuthority("USER"));
     }
 
     @JsonIgnore
