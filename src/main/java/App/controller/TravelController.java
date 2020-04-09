@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/travel")
@@ -56,15 +58,28 @@ public class TravelController {
         return new ResponseEntity<>("Error occured", HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping(value = "apply")
-    public ResponseEntity applyTravel(@AuthenticationPrincipal User user, @Valid @RequestBody CreateTravelDTO dto) {
+    @PostMapping(value = "apply/{travelId}")
+    public ResponseEntity applyTravel(@AuthenticationPrincipal User user, @PathVariable String travelId) {
         Account account = this.accountService.findOrCreate(new Account(user.getId(), user.getUsername()));
 
         if(account != null) {
+            Optional<Travel> travel = this.travelService.findById(UUID.fromString(travelId));
 
+            if(travel.isPresent()) {
+                if(!travel.get().containUser(account) && !travel.get().isOwner(account)) {
+
+                    travel.get().addPerson(account);
+                    this.travelService.findOrCreate(travel.get());
+
+                    return ResponseEntity.ok(travel.get());
+                } else {
+                    return new ResponseEntity<>("You already applied or is the owner", HttpStatus.BAD_REQUEST);
+                }
+            }
+
+            return new ResponseEntity<>("No travel has been found", HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>("Error occured", HttpStatus.BAD_REQUEST);
     }
-
 }

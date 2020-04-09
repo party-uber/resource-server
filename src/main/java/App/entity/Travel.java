@@ -70,4 +70,12 @@ public class Travel implements Serializable {
 
         return false;
     }
+
+    public boolean containUser(Account account) {
+        return travels.stream().anyMatch(accountTravel -> accountTravel.getTravel().getId().equals(this.id) && accountTravel.getTravel().getId().equals(account.getId()));
+    }
+
+    public boolean isOwner(Account account) {
+        return owner.equals(account);
+    }
 }

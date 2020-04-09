@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class TravelService {
@@ -23,5 +24,9 @@ public class TravelService {
 
     public List<Travel> findAll() {
         return this.travelRepository.findAll();
+    }
+
+    public Optional<Travel> findById(UUID id) {
+        return this.travelRepository.findById(id);
     }
 }
