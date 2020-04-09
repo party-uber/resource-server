@@ -7,9 +7,6 @@ import java.util.Date;
 
 @Data
 public class CreateTravelDTO {
-    @NotEmpty(message = "Please provide: Owner id")
-    private String ownerId;
-
     @NotEmpty(message = "Please provide: Price")
     private Double price;
 
