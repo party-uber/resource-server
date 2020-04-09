@@ -31,7 +31,9 @@ public class TravelController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity getAllTravels() {
+    public ResponseEntity getAllTravels(@AuthenticationPrincipal User user) {
+        this.accountService.findOrCreate(new Account(user.getId(), user.getUsername()));
+
         List<Travel> travels = this.travelService.findAll();
 
         if(!travels.isEmpty()) {
@@ -39,6 +41,19 @@ public class TravelController {
         }
 
         return new ResponseEntity<>("No travels found", HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{travelId}")
+    public ResponseEntity getTravel(@AuthenticationPrincipal User user, @PathVariable String travelId) {
+        this.accountService.findOrCreate(new Account(user.getId(), user.getUsername()));
+
+        Optional<Travel> travel = this.travelService.findById(UUID.fromString(travelId));
+
+        if(travel.isPresent()) {
+            return ResponseEntity.ok(travel.get());
+        }
+
+        return new ResponseEntity<>("No travel found with this id", HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping
