@@ -1,14 +1,12 @@
 spring:
   datasource:
-
-    hikari:
-      jdbc-url: ec2-54-247-79-178.eu-west-1.compute.amazonaws.com
-      username: dexdzjntmwmfci
-      password: 71daa06afa7b51085b5b265ba77bcaeb0e5206276806c1f4395264e6e0315190
-      driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/resourceuber?serverTimezone=UTC
+    username: root
+    password:
+    driver-class-name: com.mysql.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate.jdbc.lob.non_contextual-creation: true
 server:
