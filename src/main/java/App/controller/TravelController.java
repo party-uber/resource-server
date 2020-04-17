@@ -73,7 +73,7 @@ public class TravelController {
         return new ResponseEntity<>("Error occured", HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping(value = "apply/{travelId}")
+    @PostMapping(value = "/apply/{travelId}")
     public ResponseEntity applyTravel(@AuthenticationPrincipal User user, @PathVariable String travelId) {
         Account account = this.accountService.findOrCreate(new Account(user.getId(), user.getUsername()));
 
